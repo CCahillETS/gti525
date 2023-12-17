@@ -1,0 +1,30 @@
+{
+  "name": "toronto",
+  "version": "1.0.0",
+  "description": "Manipulation de données géospatiales avec MongoDB",
+  "main": "index.mjs",
+  "type": "module",
+  "scripts": {
+    "start": "node index.mjs",
+    "dev": "NODE_ENV=development nodemon index.mjs"
+  },
+  "keywords": [
+    "mongodb",
+    "GeoJSON",
+    "Express"
+  ],
+  "author": "Marcos Dias de Assuncao",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "dotenv-expand": "^10.0.0",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "geojson": "^0.5.0",
+    "mongodb": "^6.2.0",
+    "response-format": "^1.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
