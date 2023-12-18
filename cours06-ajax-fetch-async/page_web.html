@@ -1,0 +1,48 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Integration Example</title>
+  </head>
+  <body>
+    <div>
+      <h1>Random Fox and Corporate Bullshit</h1>
+      <p id="buzzword"></p>
+      <img id="foxImage" src="" alt="Random Fox" />
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Function to fetch data from the Random Fox API
+        function getRandomFox() {
+          fetch("https://randomfox.ca/floof/")
+            .then((response) => response.json())
+            .then((data) => {
+              const foxImage = document.getElementById("foxImage");
+              foxImage.src = data.image;
+            })
+            .catch((error) =>
+              console.error("Error fetching Random Fox API:", error)
+            );
+        }
+
+        // Function to fetch data from the Corporate Bullshit API
+        function getCorporateBuzzword() {
+          fetch("https://corporatebs-generator.sameerkumar.website/")
+            .then((response) => response.json())
+            .then((data) => {
+              const buzzwordElement = document.getElementById("buzzword");
+              buzzwordElement.textContent = data.phrase;
+            })
+            .catch((error) =>
+              console.error("Error fetching Corporate Bullshit API:", error)
+            );
+        }
+
+        // Call functions to fetch data from both APIs after page load
+        getRandomFox();
+        getCorporateBuzzword();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Exemple Promise.all</title>
+  </head>
+  <body>
+    <div id="content"></div>
+
+    <script>
+      Promise.most = function (proms) {
+        return new Promise((resolve, reject) => {
+          let resolveThreshold;
+          let rejectThreshold;
+
+          if (proms.length % 2 === 0) {
+            resolveThreshold = proms.length / 2;
+            rejectThreshold = resolveThreshold + 1;
+          } else {
+            resolveThreshold = (proms.length + 1) / 2;
+            rejectThreshold = resolveThreshold; //(car il y a une quantité égale de promesses à résoudre et à rejeter pour atteindre la majorité)
+          }
+
+          //pour suivre le nb de promesses résolues et rejetées
+          let resolveCount = 0;
+          let rejectCount = 0;
+
+          proms.forEach((prom) => {
+            //Pour chaque promesse, elle attache un gestionnaire then qui incrémente le compteur resolveCount lorsque la promesse est résolue.
+            prom
+              .then(() => {
+                //Si le nb résolutions => le seuil spécifié par resolveThreshold, la nouvelle promesse créée par Promise.most est résolue en appelant la fonction resolve()
+                if (++resolveCount === resolveThreshold) {
+                  resolve();
+                }
+              })
+              .catch(() => {
+                //Si le nb de rejets => le seuil spécifié par rejectThreshold, la nouvelle promesse créée par Promise.most est rejetée en appelant la fonction reject()
+                if (++rejectCount === rejectThreshold) reject();
+              });
+          });
+        });
+      };
+    </script>
+  </body>
+</html>
+
+<!--
+let proms1 = [Promise.resolve(), Promise.reject(), Promise.reject()];
+try {
+  const result = await Promise.most(proms1);
+  console.log("Majorité des promesses résolues");
+} catch(err) {
+  console.log("Majorité des promesses rejetées");
+}
+
+result: Majorité des promesses rejetées
+-->
+
+<!--
+let proms2 = [Promise.resolve(), Promise.reject(), Promise.reject(), Promise.resolve()];
+try {
+  const result = await Promise.most(proms2);
+  console.log("Majorité des promesses résolues");
+} catch(err) {
+  console.log("Majorité des promesses rejetées");
+}
+
+result: Majorité des promesses résolues
+-->
